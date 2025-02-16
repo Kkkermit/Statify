@@ -31,7 +31,11 @@ This project is a Discord bot that features an advanced and beginner-friendly ha
 
 5. Run the bot:
    ```
-   mvn exec:java -Dexec.mainClass="Main"
+   mvn clean install
+   ```
+
+   ```
+   java -jar target/discord-bot-1.0-SNAPSHOT.jar
    ```
 
 ## Usage Guidelines
