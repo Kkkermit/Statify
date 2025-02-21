@@ -27,14 +27,12 @@ public class HelpCommand implements ICommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        // Existing slash command implementation
         EmbedBuilder embed = createHelpEmbed();
         event.replyEmbeds(embed.build()).queue();
     }
 
     @Override
     public void execute(MessageReceivedEvent event) {
-        // New implementation for prefix commands
         EmbedBuilder embed = createHelpEmbed();
         event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
@@ -47,7 +45,7 @@ public class HelpCommand implements ICommand {
 
         Map<String, ICommand> commands = commandManager.getCommands();
         for (ICommand command : commands.values()) {
-            embed.addField("/" + command.getName(), 
+            embed.addField("!" + command.getName(), 
                          command.getDescription(), 
                          false);
         }

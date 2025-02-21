@@ -12,10 +12,8 @@ public class EventHandler implements EventListener {
     @Override
     public void onEvent(GenericEvent event) {
         try {
-            // Log event for debugging
             LogUtil.debug("Handling event: " + event.getClass().getSimpleName());
             
-            // Handle different event types
             handleEvent(event);
             
         } catch (Exception e) {
@@ -45,11 +43,10 @@ public class EventHandler implements EventListener {
     }
     
     private void handleMessage(MessageReceivedEvent event) {
-        // Ignore bot messages
         if (event.getAuthor().isBot()) return;
         
         String content = event.getMessage().getContentRaw();
-        String author = event.getAuthor().getName(); // Updated from getAsTag()
+        String author = event.getAuthor().getName(); 
         LogUtil.debug(String.format("Message from %s: %s", author, content));
     }
     

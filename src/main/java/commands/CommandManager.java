@@ -24,22 +24,19 @@ public class CommandManager {
     }
 
     private void registerDefaultCommands() {
-        // Register built-in commands
         registerCommand(new PingCommand());
         registerCommand(new HelpCommand(this));
-        // Add more commands here as needed
         LogUtil.info("Default commands registered");
     }
 
     public void registerCommand(ICommand command) {
-        commands.put(command.getName(), command);
-        commandData.add(Commands.slash(command.getName(), command.getDescription()));
+        commands.put(command.getName().toLowerCase(), command);
+        commandData.add(Commands.slash(command.getName().toLowerCase(), command.getDescription()));
         LogUtil.debug("Registered command: " + command.getName());
     }
 
     public void registerCommands(JDA jda) {
         try {
-            // Update slash commands globally
             jda.updateCommands().addCommands(commandData).queue(
                 success -> LogUtil.info("Successfully registered " + commands.size() + " slash commands"),
                 error -> LogUtil.error("Failed to register slash commands", error)

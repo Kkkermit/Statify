@@ -11,27 +11,27 @@ public class MessageEventListener extends ListenerAdapter {
     private final CommandManager commandManager;
 
     public MessageEventListener(ConfigUtil config, CommandManager commandManager) {
-        this.prefix = config.getProperty("bot.prefix");
+        this.prefix = config.getProperty("bot.prefix"); 
         this.commandManager = commandManager;
     }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        // Ignore messages from bots
         if (event.getAuthor().isBot()) return;
 
         String content = event.getMessage().getContentRaw();
 
-        // Check if message starts with prefix
         if (content.startsWith(prefix)) {
-            String commandName = content.substring(prefix.length()).split(" ")[0];
-            LogUtil.debug("Command received: " + commandName);
+            String[] parts = content.substring(prefix.length()).split("\\s+", 2);
+            String commandName = parts[0].toLowerCase();
+            LogUtil.debug("Text command received: " + commandName);
 
             if (commandManager.hasCommand(commandName)) {
                 try {
                     commandManager.getCommand(commandName).execute(event);
+                    LogUtil.debug("Executed text command: " + commandName);
                 } catch (Exception e) {
-                    LogUtil.error("Error executing command: " + commandName, e);
+                    LogUtil.error("Error executing text command: " + commandName, e);
                     event.getChannel().sendMessage("An error occurred while executing the command!").queue();
                 }
             }

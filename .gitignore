@@ -9,6 +9,9 @@ src/main/resources/config.properties
 # Build output
 target/
 
+# Database 
+*bot.db
+
 # IDE specific files
 .idea/
 .vscode/
