@@ -3,6 +3,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.entities.Activity;
 import utils.ConfigUtil;
+import utils.LogUtil;
 import utils.SpotifyUtil;
 import commands.CommandManager;
 import commands.impl.SpotifyStatsCommand;
@@ -13,18 +14,26 @@ public class Bot {
     private final JDA jda;
     private final CommandManager commandManager;
     private final EventManager eventManager;
-    private final ConfigUtil config;
-    private final SpotifyUtil spotifyUtil;
-    private final DatabaseManager databaseManager;
 
-    public Bot() throws Exception {
-        this.config = new ConfigUtil();
-        this.databaseManager = new DatabaseManager();
-        this.spotifyUtil = new SpotifyUtil(config, databaseManager);
+    public Bot(ConfigUtil config, DatabaseManager databaseManager, SpotifyUtil spotifyUtil) throws Exception {
         this.commandManager = new CommandManager();
         this.eventManager = new EventManager(config, commandManager);
         
-        this.jda = JDABuilder.createDefault(config.getProperty("bot.token"))
+        String token = System.getenv("BOT_TOKEN");
+        if (token == null || token.isEmpty()) {
+            token = System.getProperty("BOT_TOKEN");
+        }
+        if (token == null || token.isEmpty()) {
+            token = config.getProperty("bot.token");
+        }
+        
+        if (token == null || token.isEmpty() || token.startsWith("${")) {
+            throw new IllegalArgumentException("Bot token not found! Please check your .env file or environment variables.");
+        }
+        
+        LogUtil.info("Initializing bot with token length: " + token.length());
+        
+        this.jda = JDABuilder.createDefault(token)
             .enableIntents(GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS))
             .setActivity(Activity.playing(config.getProperty("bot.activity")))
             .build();
@@ -37,5 +46,10 @@ public class Bot {
     private void initialize() {
         commandManager.registerCommands(jda);
         eventManager.registerEvents(jda);
+    }
+
+    public void shutdown() {
+        jda.shutdown();
+        LogUtil.info("Bot shutting down");
     }
 }

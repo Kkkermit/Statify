@@ -5,6 +5,7 @@ out/
 
 # Sensitive configuration files
 src/main/resources/config.properties
+.env
 
 # Build output
 target/

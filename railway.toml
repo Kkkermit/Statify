@@ -1,0 +1,17 @@
+[build]
+builder = "DOCKERFILE"
+
+[deploy]
+startCommand = "java -jar app.jar"
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+healthcheckInterval = 10
+restartPolicyType = "ON_FAILURE"
+
+[[services]]
+name = "statsify"
+port = 8080
+protocol = "http"
+
+[deploy.env]
+CONFIG_PATH = "/app/config"
