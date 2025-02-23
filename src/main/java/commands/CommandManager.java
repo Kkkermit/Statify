@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CommandManager {
     private final Map<String, ICommand> commands;
@@ -37,10 +38,18 @@ public class CommandManager {
 
     public void registerCommands(JDA jda) {
         try {
-            jda.updateCommands().addCommands(commandData).queue(
-                success -> LogUtil.info("Successfully registered " + commands.size() + " slash commands"),
-                error -> LogUtil.error("Failed to register slash commands", error)
-            );
+            List<CommandData> commandData = commands.values().stream()
+                .map(cmd -> Commands.slash(cmd.getName(), cmd.getDescription()))
+                .collect(Collectors.toList());
+            
+            jda.updateCommands()
+               .addCommands(commandData)
+               .queue(
+                   success -> LogUtil.info("Successfully registered " + commands.size() + " slash commands"),
+                   error -> LogUtil.error("Failed to register slash commands", error)
+               );
+            
+            LogUtil.info("Queued " + commandData.size() + " commands for registration");
         } catch (Exception e) {
             LogUtil.error("Error registering commands", e);
         }

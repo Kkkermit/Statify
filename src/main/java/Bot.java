@@ -45,6 +45,14 @@ public class Bot {
 
     private void initialize() {
         commandManager.registerCommands(jda);
+
+        try {
+            jda.awaitReady();
+            LogUtil.info("Bot is ready and commands are registered");
+        } catch (InterruptedException e) {
+            LogUtil.error("Failed to initialize bot", e);
+        }
+        
         eventManager.registerEvents(jda);
     }
 
