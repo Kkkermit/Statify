@@ -1,8 +1,43 @@
-# README.md
+<img align="center" alt="statsify-bot-banner" src="https://i.postimg.cc/R0Vm53sF/Untitled-1280-x-319-px.png">
 
-# Statsify Discord Bot
+<p align="center">
+<img align="center" alt="GitHub issues" src="https://img.shields.io/github/issues/Kkkermit/Statify?style=for-the-badge"> 
+<img align="center" alt="GitHub license" src="https://img.shields.io/github/license/Kkkermit/Statify?style=for-the-badge">
+<img align="center" alt="GitHub license" src="https://img.shields.io/github/stars/Kkkermit/Statify?style=for-the-badge">
+<img align="center" alt="GitHub license" src="https://img.shields.io/github/forks/Kkkermit/Statify?style=for-the-badge">
+</p>
 
+<p align="center"><strong>
+Statsify, an making use of easy tracking of Spotify statistics straight through Discord
+</strong></p>
+
+<p align="center">
 A powerful Discord bot that integrates with Spotify to provide user statistics and music insights. Built with JDA and featuring a secure API system.
+</p>
+
+> To test out Statsify, be sure to invite him to your server by clicking [here](https://discord.com/oauth2/authorize?client_id=1341964506862977024)
+
+<h1 align="center"><strong>
+⭐ If your a fan of this repository or have used it or any of it's code, please consider leaving us a star. It would be greatly appreciated and allows us to see if users value the bot! ⭐
+</strong></h1>
+
+## Table of Contents
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Configuration](#configuration)
+  - [Discord Setup](#discord-setup)
+  - [Spotify Setup](#spotify-setup)
+  - [Environment Variables](#environment-variables)
+- [Local Development](#local-development)
+- [Deployment](#deployment)
+- [API Usage](#api-usage)
+- [Bot Commands](#bot-commands)
+- [Security](#security)
+- [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
+- [Support](#support)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
 
 ## Features
 
@@ -55,7 +90,7 @@ A powerful Discord bot that integrates with Spotify to provide user statistics a
 
 1. **Clone and Build**
    ```bash
-   git clone https://github.com/yourusername/statsify.git
+   git clone https://github.com/Kkkermit/statsify.git
    cd statsify
    mvn clean package
    ```
@@ -125,7 +160,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Support
 
-For issues and feature requests, please [open an issue](https://github.com/yourusername/statsify/issues).
+For issues and feature requests, please [open an issue](https://github.com/Kkkermit/Statify/issues).
 
 ## Acknowledgments
 
