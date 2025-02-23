@@ -4,6 +4,7 @@ import commands.interfaces.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import utils.SpotifyUtil;
 import utils.LogUtil;
 
@@ -32,12 +33,24 @@ public class SpotifyStatsCommand implements ICommand {
         String userId = event.getUser().getId();
         try {
             Map<String, Object> stats = spotifyUtil.getUserStats(userId);
+
+            String botIconUrl = event.getJDA().getSelfUser().getAvatarUrl();
             
             if (stats.isEmpty()) {
                 String authUrl = spotifyUtil.getAuthorizationUrl(userId);
-                event.reply("Please authorize the bot to access your Spotify data: " + authUrl)
-                     .setEphemeral(true)
-                     .queue();
+            
+                EmbedBuilder authEmbed = new EmbedBuilder()
+                    .setTitle("Spotify Authorization Required")
+                    .setDescription("Please click the button below to authorize this bot to access your Spotify data.")
+                    .setColor(Color.GREEN)
+                    .setFooter("Statsify Bot", botIconUrl);
+            
+                Button authButton = Button.link(authUrl, "Authorize Spotify");
+                
+                event.replyEmbeds(authEmbed.build())
+                    .addActionRow(authButton)
+                    .setEphemeral(true)
+                    .queue();
                 return;
             }
 
@@ -46,7 +59,7 @@ public class SpotifyStatsCommand implements ICommand {
                 .setColor(Color.GREEN)
                 .addField("Followers", String.valueOf(stats.get("followers")), true)
                 .addField("Profile", (String) stats.get("spotifyUrl"), false)
-                .setFooter("Stats provided by Spotify", "https://spotify.com/favicon.ico");
+                .setFooter("Stats provided by Spotify", botIconUrl);
 
             event.replyEmbeds(embed.build()).queue();
             
@@ -61,10 +74,23 @@ public class SpotifyStatsCommand implements ICommand {
         String userId = event.getAuthor().getId();
         try {
             Map<String, Object> stats = spotifyUtil.getUserStats(userId);
+
+            String botIconUrl = event.getJDA().getSelfUser().getAvatarUrl();
             
             if (stats.isEmpty()) {
                 String authUrl = spotifyUtil.getAuthorizationUrl(userId);
-                event.getChannel().sendMessage("Please authorize the bot to access your Spotify data: " + authUrl).queue();
+    
+                EmbedBuilder authEmbed = new EmbedBuilder()
+                    .setTitle("Spotify Authorization Required")
+                    .setDescription("Please click the button below to authorize this bot to access your Spotify data.")
+                    .setColor(Color.GREEN)
+                    .setFooter("Statsify Bot", botIconUrl);
+
+                Button authButton = Button.link(authUrl, "Authorize Spotify");
+                
+                event.getChannel().sendMessageEmbeds(authEmbed.build())
+                    .setActionRow(authButton)
+                    .queue();
                 return;
             }
 
@@ -73,7 +99,7 @@ public class SpotifyStatsCommand implements ICommand {
                 .setColor(Color.GREEN)
                 .addField("Followers", String.valueOf(stats.get("followers")), true)
                 .addField("Profile", (String) stats.get("spotifyUrl"), false)
-                .setFooter("Stats provided by Spotify", "https://spotify.com/favicon.ico");
+                .setFooter("Stats provided by Statsify", botIconUrl);
 
             event.getChannel().sendMessageEmbeds(embed.build()).queue();
             
